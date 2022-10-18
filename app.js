@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
-const morgan = require('morgan');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -13,4 +13,6 @@ app.get('/ping', function (req, res, next) {
   res.json({ message : 'pong freeeedom!!!!!!!!!' });
 });
 
-app.listen(3000, () => { console.log(`Running on port ${PORT}`)});
+app.listen(3000, () => {
+  console.log(`Listening to request on 127.0.0.1:3000`);
+});
