@@ -10,6 +10,19 @@ const validatePassword = (password) => {
   };
 }
 
+const validateEmail = (email) => {
+  const re = new RegExp(
+    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
+  );
+
+  if (!re.test(email)) {
+    const error = new Error('INVALID_USER');
+    error.statusCode = 400;
+    throw error;
+  };
+}
+
 module.exports = {
-  validatePassword
+  validatePassword,
+  validateEmail
 }

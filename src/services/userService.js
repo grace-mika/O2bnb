@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
-const { userDao } = require('../models');
+const jwt = require('jsonwebtoken');
 
-const validator = require('../utils/validator')
+const { userDao } = require('../models');
+const validator = require('../utils/validator');
 
 const hashPassword = async (password) => {
   const saltRound = 10;
