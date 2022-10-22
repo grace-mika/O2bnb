@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const routers = require("./src/routers");
 
 const createApp = () => {
   const app = express();
@@ -12,6 +13,10 @@ const createApp = () => {
   app.get('/ping', function (req, res, next) {
     res.json({ message : 'pong' })
   })
+
+  app.use(routers);
+
   return app;
 };
 
+module.exports = { createApp };

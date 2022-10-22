@@ -5,5 +5,9 @@ const signUp = catchAsync(async (req, res) => {
   
     await userService.signUp( userName,password,email, date_of_birth);
 
-    res.status(201).json({ message : "signUp success!" });
+    res.status(201).json({ message : "SIGN_UP_SUCCESS." });
 })
+
+module.exports = {
+  signUp
+}
