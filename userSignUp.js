@@ -5,6 +5,8 @@ const userRouter = require('./userRouter');
 
 const router = express.Router();
 
+router.use('./users', userRouter);
+
 module.exports = router;
 
 //userRouter.js
@@ -54,6 +56,25 @@ module.exports = {
 }
 
 //userService.js
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const { userDao } = require("../models");
+const validator = require('../utils/validator');
+
+const hashedPassword = async(password) => {
+  const saltRoung = 10;
+  const salt = await bcrypt.genSalt(saltRound);
+
+  return await bcrypt.hash(password, salt)
+}
+
+const getUserById = async(id) => {
+  const result = await userDao.getUserById(id)
+
+  return result;
+}
+
 const signUp = async(name, email, password, date_of_birth) => {
   validator.validateEmail(email);
   validator.validatePassword(password);
@@ -72,7 +93,8 @@ const signUp = async(name, email, password, date_of_birth) => {
 }
 
 module.exports = {
-  signUp
+  signUp,
+  getUserById
 }
 
 //model index.js
@@ -84,6 +106,40 @@ module.exports = {
 }
 
 //userDao.js
+const { dataSource } = require('./data-source');
+
+const getUserByEmail = async(email) => {
+  const [ result ] = await dataSource.query (
+    `SELECT
+      id,
+      name,
+      email,
+      password,
+      date_of_birth
+    FROM users
+    WHERE email = ?
+    `, [email]
+  );
+
+  return result;
+}
+
+const getUserById =async(id) => {
+  const [ result ] = await dataSource.query(
+    `SELECT
+      id,
+      name,
+      email,
+      password,
+      date_of_brith
+    FROM users
+    WHERE id = ?
+    `, [ id ]
+  );
+
+  return result;
+} ;
+
 const createUser = async(name, email, hashedPassword, date_of_birth) => {
   const result = await dataSource.query(
     `INSERT INTO users(
