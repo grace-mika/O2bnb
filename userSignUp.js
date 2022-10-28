@@ -154,5 +154,7 @@ const createUser = async(name, email, hashedPassword, date_of_birth) => {
 };
 
 module.exports = {
+  getUserByEmail,
+  getUserById,
   createUser
 }
